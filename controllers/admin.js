@@ -21,7 +21,8 @@ exports.postAddProduct = (req, res, next) => {
     title: title,
     description:description, 
     price: price,
-    imageUrl:imageUrl
+    imageUrl:imageUrl,
+    userId: req.user
   });
   product
     .save()
@@ -81,7 +82,10 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
   Product.find()
+    // .select('title price -_id') //means which fields we want in return we can check in console
+    // .populate('userId','name') //it's help us to see other's id details, for there we can see user details with the help of userId because we have
     .then(products => {
+      // console.log(products); 
       res.render('admin/products', {
         prods: products,
         pageTitle: 'Admin Products',
